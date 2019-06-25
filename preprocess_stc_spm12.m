@@ -38,7 +38,7 @@ cnt = 0;
 % file names setup structures
 
 for fdx = 1:size(func,1)
-    dp=[''];
+    dp={''};
     ff = deblank(func(fdx,:));
     [fp, ffn, ex]  = fileparts(ff);
     
@@ -56,11 +56,11 @@ for fdx = 1:size(func,1)
     for rdx = 1:size(v,1)
         % raw inuts, for slice timing
         p = [ff ',' num2str(rdx)];
-        dp(rdx,1:length(p)) = p;
+        dp(rdx,1) = {p};
         
         % Slice correction output files, for motion correct
         p2 = [aff ',' num2str(rdx)];
-        ap{1,cnt+rdx} = p2;
+        ap(cnt+rdx, 1:length(p2)) = p2;
         
         % Motion correction output files, for coreg
         p2 = [rff ',' num2str(rdx)];
@@ -90,13 +90,13 @@ end
 % flags for various calls
 %%%%%%%%%%%%%%%%%%%%%%%%%
 
-
 %slice time
 stc.so = sliceorder;
 stc.tr=tr;
 stc.nslices = v(1).dim(3); 
-stc.refslice = floor(stc.nslices/2)
+stc.refslice = floor(stc.nslices/2);
 stc.ta=tr-(tr/stc.nslices);
+stc.prefix='a'
 stc.scans = dp; 
 
 %%%%%

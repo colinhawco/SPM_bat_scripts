@@ -133,11 +133,12 @@ for idx =1:size(files,3)
                 job.sess(idx).cond(jdx).tmod = pmod(jdx);
                 job.sess(idx).cond(jdx).pmod = job.sess(1).cond(1).pmod;
             else
-                for  mdx = 1:size(pmod,2)
+                for mdx = 1:size(pmod,2)
                     pcur = pmod(:,mdx);
-                    mdx = 1;
+                    %mdx = 1;
+                    %check is any modulators for this event type
                     if sum(pmod(t)) ~= 0
-                        job.sess(idx).cond(jdx).pmod(mdx).name = ['pmod' num2str(jdx)];
+                        job.sess(idx).cond(jdx).pmod(mdx).name = ['pmod' num2str(mdx)];
                         job.sess(idx).cond(jdx).pmod(mdx).param = pcur(t);
                         job.sess(idx).cond(jdx).pmod(mdx).poly= 1; %hard coded to first order polynomial
                         job.sess(idx).cond(jdx).tmod(mdx) = 0;
