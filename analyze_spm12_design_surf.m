@@ -70,10 +70,11 @@ job.timing.units='secs';
 job.timing.RT=TR;
 job.timing.fmri_t= 16;
 job.timing.fmri_t0= 8;
-job.mthresh = 0.00000000000000000000000000005;
+job.mthresh = 0.0000000000000000000000000000000000005;
 
 pmodtemp = job.sess(1).cond(1).pmod;
 %HRF to use
+
 if HRF == 1
     disp('Using HRF alone')
     job.bases.hrf.derivs=[0 0];
@@ -83,6 +84,11 @@ elseif HRF == 2
 elseif HRF == 3
     job.bases.hrf.derivs=[1 1];
     disp('Using HRF plus derivative and dispersion')
+elseif length(HRF) == 2
+    job.bases.fir.length = HRF(1);
+    job.bases.fir.order = HRF(2);
+    disp(['using finite impulse responses, length: ' num2str(HRF(1)) ' order: ' num2str(HRF(2))  ]);
+    job.bases=rmfield(job.bases,  'hrf');
 else
     disp('Inproper input for variable HRF, assuming we should use HRF alone')
     job.bases.hrf.derivs=[0 0];
